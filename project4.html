@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+</style>
+
+<body background="QuantumComputerIMG.jpg" align="left">
+	<title>Color Code snippet</title>
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/atom-one-dark.min.css">
+
+
+<div class="topnav">
+  <a href="context.html" target="_self">Context</a>
+  <a href="project1.html">Project1</a>
+  <a href="project2.html">Project2</a>
+  <a href="project3.html">Project3</a>
+  <a href="project4.html">Project4</a>
+</div>
+
+
+
+
+ 
+<h3><font color="green">'Addition on a Quantum Simulator using QFT'</font></h3>
+
+<pre>
+<code>
+
+#This file is to add two positive numbers in a quantum computer/ simulator using QFT
+
+import numpy as np
+import qiskit
+from qiskit import QuantumCircuit, Aer, QuantumRegister, ClassicalRegister
+from qiskit.providers.aer import QasmSimulator
+from qiskit.visualization import plot_histogram
+from qiskit.circuit.library import QFT
+
+# Function to change decimal numbers to Binary numbers and to Qubit states
+
+def change2qubit(a,b):
+
+# Changing to Binary numbers
+
+    a_bin  = '{0:{fill}3b}'.format(a, fill = '0')
+    b_bin  = '{0:{fill}3b}'.format(b, fill = '0')
+
+# Getting Qubits/ Bits (registers)
+
+    qa = QuantumRegister(5,'a')
+    qb = QuantumRegister(5,'b')
+    ca = ClassicalRegister(5,'c')
+    qc = QuantumCircuit(qa,qb,ca)
+
+# Flipping the state of qubits for '1'
+
+    for i in range(3):
+        if a_bin[i] == '1':
+            qc.x(qa[2-i])
+        if b_bin[i] == '1':
+            qc.x(qb[2-i])
+    return qc, qa, qb, ca
+
+ # Function which adds/ rotates and retains teh answer in the first register
+def add_rotations(qc, t_reg, c_reg, n):
+    for i in range(0, n+1):
+        qc.cp(np.pi/ 2**i, c_reg[n-i], t_reg[n])
+
+a = int(input("Enter First Number :"))
+b = int(input("Enter Second Number :"))
+n = int(input("Enter The Number Of Qubits required :"))  # Maximum range upto 10 qubits
+
+qc, qa, qb, ca = change2qubit(a,b)
+
+qc.append(QFT(n,do_swaps = False),list(range(0,n)))
+
+for i in range(0, n):
+    add_rotations(qc, qa, qb, 2-i)
+
+qc.append(QFT(n,do_swaps = False).inverse(),list(range(0,n)))
+qc.measure(qa,ca)
+qc.draw('mpl')
+
+backend = Aer.get_backend('qasm_simulator')
+job = qiskit.execute(qc, backend, shots = 100)
+result = job.result()
+answer = result.get_counts()
+
+# decimal representation of binary
+
+binary=str(answer.keys())
+print(binary)   
+
+# ploting histogram
+plot_histogram(answer)
+
+# NOTE: The output displayed in histogram is a prbability distribution of number of possible answers,Correct answer may have greater or lesser probability
+  
+</code>
+
+</pre>
+
+<iframe src="scr_1.jpg" height="500" width="700"></iframe>
+<iframe src="scr_2.jpg" height="500" width="700"></iframe>
+<iframe src="scr_3.jpg" height="500" width="700"></iframe>
+<iframe src="binary_to_decimal.jpg" height="500" width="700"></iframe>
+
+<h3><font color="green">Steps:</font></h3>
+<h3>
+<ol>
+<li>Install python3 on your machine, let's say windows</li>
+<li>You can also do the same by installing Anaconda Navigator IDE for python development</li>
+<li>There you can find 'Jupyter Notebook' and other options for running the program</li>
+<li>Install Qiskit library</li>
+    <pre><code>/cmd> pip install qiskit</code></pre>
+<li>Qiskit runtime hardware for running code on real 'Quantum_Hardware' connecting to the IBM server by...</li>	
+    <pre><code>https://quantum-computing.ibm.com/lab/docs/iql/runtime/start</code></pre>
+<li>If Anaconda is installed then do the above step on Anaconda prompt for intalling Qiskit</li>
+<li>Once installed, just paste the code in a file/ jupyter notebook. </li>
+<li>Now,you are ready to test the code.</li>
+</ol>
+</h3>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+
+<br>
+<br>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/
+font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="topnav">
+  <a href=""> ___________________________________________</a>     
+ <a href="" align="center">Contact</a>
+ <a href="">swastikpadasalkar3032023@gmail.com</a>
+<a href="https://t.me/SwastikPadasalkar"><i class="fa fa-telegram" style="color: white; size:10px"></i></a>
+<a href="https://www.linkedin.com/in/swastik-padasalkar-25b2441b3"><i class="fa fa-linkedin" style="color: blue; size:10px,"></i></a>
+<a> ________________________________________</a>
+</div>
+
+
+</body>
+</html>

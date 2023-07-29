@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+</style>
+</head>
+<body background="QuantumComputerIMG.jpg">
+
+<div class="topnav">
+  <a href="context.html" target="_self">Context</a>
+  <a href="project1.html">Project1</a>
+  <a href="project2.html">Project2</a>
+  <a href="project3.html">Project3</a>
+  <a href="project4.html">Project4</a>
+</div>
+
+
+
+<html>
+<head>
+	<title>Color Code snippet</title>
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/atom-one-dark.min.css">
+	
+</head>
+<body>
+ 
+<h3><font color="green">'Half adder on a Quantum Simulator'</font></h3>
+
+<pre>
+<code>
+# NOTE:'1+1=2' on a Quantum Simulator
+from qiskit import *
+from qiskit.tools.visualization import circuit_drawer
+from qiskit.tools.visualization import plot_histogram
+
+# Creating a circuit with 3 quantum bits and 2 classical bits
+qc = QuantumCircuit(3,2)
+
+# Preparing inputs
+qc.x(0) # Comment this line to make Qbit0 = |0>
+qc.x(1) # Comment this line to make Qbit1 = |0>
+# no changes to Qbit2 (stays |0> always)
+qc.barrier()
+
+# Applying AND operation and put result to Qbit2
+qc.ccx(0,1,2)
+qc.barrier()
+
+# Applying XOR operation and put result to Qbit1
+qc.cx(0,1)
+qc.barrier()
+
+# Reading outputs
+qc.measure(1,0) # Reading XOR value ( sum bit )
+qc.measure(2,1) # Reading AND value ( carry-out bit )
+
+counts = execute(qc,Aer.get_backend('qasm_simulator')).result().get_counts()
+print(counts)
+
+
+#Credit :Lahiru Madhushanka 
+</code>
+
+</pre>
+
+<iframe src="scr_4.jpg" height="500" width="700"></iframe>
+<iframe src="scr_5.jpg" height="500" width="700"></iframe>
+
+
+<h3><font color="green">Steps:</font></h3>
+<h3>
+<ol>
+<li>This program shows how we can implement classical circuit on a quantum Computer </li>
+<li>Whatever problem you can solve on a Classical Computer can  be solved by a Quantum Computer i.e. NP-Completeness</li>
+<li>The input is encoded into 'x-gate' and output is measured using 'measure()' on the qubit it is stored.</li>
+<li>Here, 1+1=2 in decimals is denoted as '1+1=10' in binary</li>
+</ol>
+</h3>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+
+<br>
+<br>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/
+font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="topnav">
+  <a href=""> ___________________________________________</a>     
+ <a href="" align="center">Contact</a>
+ <a href="">swastikpadasalkar3032023@gmail.com</a>
+<a href="https://t.me/SwastikPadasalkar"><i class="fa fa-telegram" style="color: white; size:10px"></i></a>
+<a href="https://www.linkedin.com/in/swastik-padasalkar-25b2441b3"><i class="fa fa-linkedin" style="color: blue; size:10px,"></i></a>
+<a> ________________________________________</a>
+</div>
+
+
+</body>
+</html>

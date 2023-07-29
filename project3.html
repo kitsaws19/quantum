@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+</style>
+</head>
+<body background="QuantumComputerIMG.jpg" align="left">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/atom-one-dark.min.css">
+
+<div class="topnav">
+  <a href="context.html" target="_self">Context</a>
+  <a href="project1.html">Project1</a>
+  <a href="project2.html">Project2</a>
+  <a href="project3.html">Project3</a>
+  <a href="project4.html">Project4</a>
+</div>
+
+
+
+<h3><font color="green">'Hadamard Gate For Superposition'</font></h3>
+
+<pre>
+<code>
+
+from qiskit import *
+from qiskit.visualization import circuit_drawer
+from qiskit.tools.visualization import plot_bloch_multivector
+from qiskit.tools.visualization import plot_histogram
+
+# Creating a circuit with 8 quantum bits and 2 classical bits
+qc = QuantumCircuit(21,4)
+
+# Preparing inputs for Hadamard gate
+qc.h(0) # Comment this line to make Qbit0 = |0>
+qc.h(1)# Comment this line to make Qbit1 = |0>
+
+qc.h(2) # Comment this line to make Qbit2 = |0> ( carry-in bit ) initially
+
+
+qc.h(9) #(sum)
+qc.h(10)#(carry-forward to next bit)
+
+qc.barrier()
+
+# AND gate1 implementation
+qc.ccx(0,1,3)
+qc.barrier()
+
+# XOR gate1 implementation
+qc.cx(0,4) 
+qc.cx(1,4)
+qc.barrier()
+
+
+# XOR gate2 implementation
+qc.cx(2,5) 
+qc.cx(4,5)
+qc.barrier()
+
+# AND gate2 implementation
+qc.ccx(2,4,6)
+qc.barrier()
+
+# OR gate implementation
+qc.x(3)
+qc.x(6)
+qc.ccx(3,6,7)
+qc.x(7)
+qc.barrier()
+
+# AND gate1 implementation
+##qc.cx(7,14)
+qc.ccx(9,10,12)
+qc.barrier()
+
+# XOR gate1 implementation
+qc.cx(9,13) 
+qc.cx(10,13)
+qc.barrier()
+
+
+# XOR gate2 implementation
+qc.cx(7,14) 
+qc.cx(13,14)
+qc.barrier()
+
+# AND gate2 implementation
+qc.ccx(7,14,15)
+qc.barrier()
+
+# OR gate implementation
+qc.x(12)
+qc.x(15)
+qc.ccx(12,15,16)
+qc.x(16)
+qc.barrier()
+
+
+# Measuring and put result to classical bit
+qc.measure(5,0) # ( sum ) i.e. S0
+qc.measure(7,1) # ( carry-out )C0
+qc.measure(14,2)# (sum) S1
+qc.measure(16,3)# (carry-out)C1
+
+counts = execute(qc,Aer.get_backend('qasm_simulator')).result().get_counts()
+print(counts)
+
+circuit_drawer(qc, output='mpl') 
+
+#Credit: Swastik Yeshwant Padasalkar 
+</code>
+
+</pre>
+
+<iframe src="IMG_9.jpg" height="500" width="1000"></iframe>
+<iframe src="scr_10.jpg" height="500" width="700"></iframe>
+<iframe src="scr_11.jpg" height="500" width="700"></iframe>
+<iframe src="scr_12.jpg" height="500" width="700"></iframe>
+<iframe src="scr_13.jpg" height="500" width="700"></iframe>
+<h3><font color="green">Hadamard Gate</font></h3>
+<h3>
+<li>In the above diagram we have applied 'Hadamard Gate' on the left-hand side encoded qubits for inputs.</li>
+<iframe src="IMG_15.jpg" height="500" width="1500"></iframe>
+
+</h3>
+<iframe src="IMG_14.jpg" height="500" width="1000"></iframe>
+<br>
+<br>
+<h3><font color="green">Steps:</font></h3>
+<h3>
+<ol>
+<li>The hadamard operation is performed on the qubits as we can see in the above diagram</li>
+<li>This gate shows multiple possible outcomes when applied,the outcomes are with 50% chances of the 0's and 1's.</li>
+<li>Logically valid outcome is shown into the green box</li>
+<li>Most appropriate one would appear in 'Top-4' highest probability or with highest probability at once</li>
+<li>The solution string with equal number of 0's and 1's here is '0101' has the highest probability.</li>
+<br>
+<li>As the cicuitry get larger, there is a need for more optimized method which is provided by QFT (Quantum Fourier Transform)</li>
+<li>Install Qiskit library</li>
+    <pre><code>/cmd> pip install qiskit</code></pre>
+<li>Qiskit runtime hardware for running code on real 'Quantum_Hardware' connecting to the IBM server by...</li>	
+    <pre><code>https://quantum-computing.ibm.com/lab/docs/iql/runtime/start</code></pre>
+<li>If Anaconda is installed then do the above step on Anaconda prompt for intalling Qiskit</li>
+<li>Once installed, just paste the code in a file/ jupyter notebook. </li>
+<li>Now,you are ready to test the code.</li>
+</ol>
+</h3>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+<br>
+<br>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/
+font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="topnav">
+  <a href=""> ___________________________________________</a>     
+ <a href="" align="center">Contact</a>
+ <a href="">swastikpadasalkar3032023@gmail.com</a>
+<a href="https://t.me/SwastikPadasalkar"><i class="fa fa-telegram" style="color: white; size:10px"></i></a>
+<a href="https://www.linkedin.com/in/swastik-padasalkar-25b2441b3"><i class="fa fa-linkedin" style="color: blue; size:10px,"></i></a>
+<a> ________________________________________</a>
+</div>
+
+
+
+</body>
+</html>
